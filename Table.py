@@ -1,5 +1,6 @@
 import gym
 import numpy as np
+from random import random
 
 
 class Table():
@@ -95,11 +96,24 @@ class Table():
 			return 2
 
 	def Crossing(self, other, selfConf):
+		pass
+		for i in range(self.numPos):
+			for j in range(self.numVel):
+				pass 
 		#Changes some values of self table to the values of the other table, given the confiability selfConf in the self table
 
 
 	def Mutate(self, conf):
+		pass
 		#Changes some values inside self table randomly (but considering given confiability in it self to change the probability of change)
+		for i in range(self.numPos):
+			for j in range(self.numVel):
+				if((self.table[i,j] != -1) and (conf < random())):
+					action = self.env.action_space.sample()
+					self.table[i, j] = action
+
+
+		
 
 
 

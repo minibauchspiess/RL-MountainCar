@@ -2,8 +2,8 @@ import gym
 import numpy as np
 from Table import Table, Compare
 
-POSNUM = 8
-VELNUM = 8
+POSNUM = 3
+VELNUM = 3
 
 
 env = gym.make('MountainCar-v0')
@@ -26,6 +26,11 @@ for _ in range(500):
 		#best = t
 	#print(qStar.table)
 
+print("Mutating now")
+for _ in range(20):
+	qStar.Mutate(0.5)
+	print(qStar.table)
+
 #Current values for q Star
 #print("qStar reward: ", qStar.reward)
 #print("qStar closest: ", qStar.closest)
@@ -35,7 +40,7 @@ print("Best:\n", best.table)
 print("\n\nqStar now:\n", qStar.table)
 
 print(best.table == qStar.table)
-'''
+
 score = 0
 #Run q Star a few times
 print("Running tests")
@@ -48,7 +53,7 @@ for i in range(10):
 		score += 1
 
 print("Score: ", score)
-'''
+''''''
 #New values for q Star
 #print("qStar reward: ", qStar.reward)
 #print("qStar closest: ", qStar.closest)
