@@ -1,6 +1,6 @@
 from Table import Table
 
-def TestTable(table, epochs = 1000):
+def TestTable(table, epochs = 100):
 	#Run the agent in the environment with the given table with the epochs passed as parameter
 	winTimes = 0
 	rewardSum = 0
@@ -15,9 +15,6 @@ def TestTable(table, epochs = 1000):
 	table.avgReward = avgRwd
 
 	return winTimes
-
-
-
 
 
 def Compare(t1, t2):

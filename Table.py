@@ -22,7 +22,6 @@ class Table():
 
 		self.avgReward = -200
 
-
 	def GetAction(self, pos, vel):
 		#Using the inputs and the discretization range (passed in the creation of the object), find the corresponding index in the table, and return the value in that position
 		lin = (pos - self.env.observation_space.low[0])//self.posResol
