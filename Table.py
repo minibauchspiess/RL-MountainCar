@@ -20,6 +20,8 @@ class Table():
 		self.reward = 0
 		self.closest = (env.observation_space.high[0] - env.observation_space.low[0])
 
+		self.avgReward = -200
+
 
 	def GetAction(self, pos, vel):
 		#Using the inputs and the discretization range (passed in the creation of the object), find the corresponding index in the table, and return the value in that position
@@ -44,9 +46,11 @@ class Table():
 
 		self.table[int(lin),int(col)] = val
 
-	def Run(self, show=False, updateTable=True, exploreChance = 0.3):
+	def Run(self, show=False, updateTable=True, exploreChance = 0.1):
 		#Set initial state for environment
 		state = self.env.reset()
+
+		self.reward = 0
 
 		#Perform interactions with the environment until completion condition is reached
 		done = False
@@ -73,7 +77,6 @@ class Table():
 
 			#Update the reward
 			self.reward += reward
-
 
 	def InterpolNearest(self, reach):
 		#Make a copy, to aply results only after proccess is finished
@@ -126,18 +129,6 @@ class Table():
 
 
 
-
-def Compare(t1, t2):
-	if(t1.reward == t2.reward):
-		if(t1.closest <= t2.closest):
-			return t1
-		else:
-			return t2
-
-	elif(t1.reward > t2.reward):
-		return t1
-	else:
-		return t2
 
 def FindNearest(table, y, x, reach):
 	for i in range(1, reach+1):
