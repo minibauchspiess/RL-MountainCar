@@ -47,18 +47,15 @@ def ManySingleFixed(env, numTables=2000, sizePos=DEFAULT_SIZEPOS, sizeVel=DEFAUL
 		np.save(saveFile, qStar.table)
 
 
-	maxTimesWon = 0
-	minTimesWon = 100
-
+	winArray = []
 	for _ in range(15):
-		win = TestTable(qStar)
-		if(win>maxTimesWon):
-			maxTimesWon = win
-		elif(win<minTimesWon):
-			minTimesWon = win
+		winArray.append(TestTable(qStar))
+	meanWin = np.mean(winArray)
+	stdWin = np.std(winArray)
+
 
 	print("Finished training")
-	print("Average Reward: ", avgReward, "; Times won: ", (maxTimesWon + minTimesWon)/2, "+-", (maxTimesWon - minTimesWon)/2, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
+	print("Average Reward: ", avgReward, "; Times won: ", meanWin, "+-", srdWin, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
 	return qStar
 
 def ManySingleExploring(env, expChance=0.2, numTables=2000, sizePos=DEFAULT_SIZEPOS, sizeVel=DEFAULT_SIZEVEL, verbose=True, save=False, saveFile=""):
@@ -70,18 +67,14 @@ def ManySingleExploring(env, expChance=0.2, numTables=2000, sizePos=DEFAULT_SIZE
 		np.save(saveFile, qStar.table)
 
 
-	maxTimesWon = 0
-	minTimesWon = 100
-
+	winArray = []
 	for _ in range(15):
-		win = TestTable(qStar)
-		if(win>maxTimesWon):
-			maxTimesWon = win
-		elif(win<minTimesWon):
-			minTimesWon = win
+		winArray.append(TestTable(qStar))
+	meanWin = np.mean(winArray)
+	stdWin = np.std(winArray)
 
 	print("Finished training")
-	print("Average Reward: ", avgReward, "; Times won: ", (maxTimesWon + minTimesWon)/2, "+-", (maxTimesWon - minTimesWon)/2, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
+	print("Average Reward: ", avgReward, "; Times won: ", meanWin, "+-", stdWin, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
 	return qStar
 
 def ManyMultipleExploring(env, expChance=0.2, epochs=5, numTables=2000, sizePos=DEFAULT_SIZEPOS, sizeVel=DEFAULT_SIZEVEL, verbose=True, save=False, saveFile=""):
@@ -93,18 +86,14 @@ def ManyMultipleExploring(env, expChance=0.2, epochs=5, numTables=2000, sizePos=
 		np.save(saveFile, qStar.table)
 
 
-	maxTimesWon = 0
-	minTimesWon = 100
-
+	winArray = []
 	for _ in range(15):
-		win = TestTable(qStar)
-		if(win>maxTimesWon):
-			maxTimesWon = win
-		elif(win<minTimesWon):
-			minTimesWon = win
+		winArray.append(TestTable(qStar))
+	meanWin = np.mean(winArray)
+	stdWin = np.std(winArray)
 
 	print("Finished training")
-	print("Average Reward: ", avgReward, "; Times won: ", (maxTimesWon + minTimesWon)/2, "+-", (maxTimesWon - minTimesWon)/2, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
+	print("Average Reward: ", avgReward, "; Times won: ", meanWin, "+-", stdWin, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
 	return qStar
 
 
