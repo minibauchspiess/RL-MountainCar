@@ -21,6 +21,7 @@ class Table():
 		self.closest = (env.observation_space.high[0] - env.observation_space.low[0])
 
 		self.avgReward = -200
+		self.stdReward = 0
 
 	def GetAction(self, pos, vel):
 		#Using the inputs and the discretization range (passed in the creation of the object), find the corresponding index in the table, and return the value in that position

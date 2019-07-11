@@ -4,6 +4,7 @@ from Test import TestTable, Compare
 import gym
 import numpy as np
 from time import time
+import csv
 
 DEFAULT_SIZEPOS = 10
 DEFAULT_SIZEVEL = 10
@@ -38,62 +39,75 @@ def TrainManyTables(env, expChance=0, epochs=1, numTables=2000, sizePos=DEFAULT_
 	elapsedTime = time() - startTime
 	return bestTable, bestTable.avgReward, timesWon, elapsedTime
 
-def ManySingleFixed(env, numTables=2000, sizePos=DEFAULT_SIZEPOS, sizeVel=DEFAULT_SIZEVEL, verbose=True, save=False, saveFile=""):
+def ManySingleFixed(env, numTables=2000, sizePos=DEFAULT_SIZEPOS, sizeVel=DEFAULT_SIZEVEL, verbose=True, saveTable=False, tableFile="", saveStatistics=False, statisticsFile='StatisticData.csv'):
 	print("Starting training ManySingleFixed method\nCreating ", numTables, " tables with size ", sizePos, "x", sizeVel)
 
 	qStar, avgReward, timesWon, elapsedTime = TrainManyTables(env=env, numTables=numTables, sizePos=sizePos, sizeVel=sizeVel, verbose=verbose)
 
-	if(save):
-		np.save(saveFile, qStar.table)
+	if(saveTable):
+		np.save(tableFile, qStar.table)
 
 
 	winArray = []
 	for _ in range(15):
-		winArray.append(TestTable(qStar))
+		winArray = np.append(winArray, TestTable(qStar))
 	meanWin = np.mean(winArray)
 	stdWin = np.std(winArray)
 
 
 	print("Finished training")
-	print("Average Reward: ", avgReward, "; Times won: ", meanWin, "+-", srdWin, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
+	print("Average Reward: ", qStar.avgReward, "; Reward Deviation: ", qStar.stdReward, "; Times won: ", meanWin, "+-", stdWin, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
+
+	if(saveStatistics):
+		SaveToCSV(['ManySingleFixed', str(sizePos)+'x'+str(sizeVel), qStar.avgReward, qStar.stdReward, meanWin, stdWin, elapsedTime], statisticsFile)
+
+
 	return qStar
 
-def ManySingleExploring(env, expChance=0.2, numTables=2000, sizePos=DEFAULT_SIZEPOS, sizeVel=DEFAULT_SIZEVEL, verbose=True, save=False, saveFile=""):
+def ManySingleExploring(env, expChance=0.2, numTables=2000, sizePos=DEFAULT_SIZEPOS, sizeVel=DEFAULT_SIZEVEL, verbose=True, saveTable=False, tableFile="", saveStatistics=False, statisticsFile='StatisticData.csv'):
 	print("Starting training ManySingleExploring method\nCreating ", numTables, " tables with size ", sizePos, "x", sizeVel, " and with ", expChance*100, "% chance of exploring")
 
 	qStar, avgReward, timesWon, elapsedTime = TrainManyTables(env=env, expChance=expChance, numTables=numTables, sizePos=sizePos, sizeVel=sizeVel, verbose=verbose)
 
-	if(save):
-		np.save(saveFile, qStar.table)
+	if(saveTable):
+		np.save(tableFile, qStar.table)
 
 
 	winArray = []
 	for _ in range(15):
-		winArray.append(TestTable(qStar))
+		winArray = np.append(winArray, TestTable(qStar))
 	meanWin = np.mean(winArray)
 	stdWin = np.std(winArray)
 
 	print("Finished training")
-	print("Average Reward: ", avgReward, "; Times won: ", meanWin, "+-", stdWin, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
+	print("Average Reward: ", qStar.avgReward, "; Reward Deviation: ", qStar.stdReward, "; Times won: ", meanWin, "+-", stdWin, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
+
+	if(saveStatistics):
+		SaveToCSV(['ManySingleExploring', str(sizePos)+'x'+str(sizeVel), qStar.avgReward, qStar.stdReward, meanWin, stdWin, elapsedTime], statisticsFile)
+
 	return qStar
 
-def ManyMultipleExploring(env, expChance=0.2, epochs=5, numTables=2000, sizePos=DEFAULT_SIZEPOS, sizeVel=DEFAULT_SIZEVEL, verbose=True, save=False, saveFile=""):
+def ManyMultipleExploring(env, expChance=0.2, epochs=5, numTables=2000, sizePos=DEFAULT_SIZEPOS, sizeVel=DEFAULT_SIZEVEL, verbose=True, saveTable=False, tableFile="", saveStatistics=False, statisticsFile='StatisticData.csv'):
 	print("Starting training ManyMultipleExploring method\nCreating ", numTables, " tables with size ", sizePos, "x", sizeVel,", training ", epochs, " times each table and with ", expChance*100, "% chance of exploring")
 
 	qStar, avgReward, timesWon, elapsedTime = TrainManyTables(env=env, expChance=expChance, epochs=epochs, numTables=numTables, sizePos=sizePos, sizeVel=sizeVel, verbose=verbose)
 
-	if(save):
-		np.save(saveFile, qStar.table)
+	if(saveTable):
+		np.save(tableFile, qStar.table)
 
 
 	winArray = []
 	for _ in range(15):
-		winArray.append(TestTable(qStar))
+		winArray = np.append(winArray, TestTable(qStar))
 	meanWin = np.mean(winArray)
 	stdWin = np.std(winArray)
 
 	print("Finished training")
-	print("Average Reward: ", avgReward, "; Times won: ", meanWin, "+-", stdWin, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
+	print("Average Reward: ", qStar.avgReward, "; Reward Deviation: ", qStar.stdReward, "; Times won: ", meanWin, "+-", stdWin, "%; Training time: {:.2f}".format(elapsedTime), " seconds" )
+
+	if(saveStatistics):
+		SaveToCSV(['ManyMultipleExploring', str(sizePos)+'x'+str(sizeVel), qStar.avgReward, qStar.stdReward, meanWin, stdWin, elapsedTime], statisticsFile)
+
 	return qStar
 
 
@@ -124,5 +138,11 @@ def Crossing(env, crossingTimes, numCreatedTables=100, sizePos = DEFAULT_SIZEPOS
 		return son.Crossing(t1)
 
 
+
+def SaveToCSV(row, statisticsFile):
+	csvFile = open(statisticsFile,'a')
+	writer = csv.writer(csvFile)
+	writer.writerow(row)
+	csvFile.close()
 
 

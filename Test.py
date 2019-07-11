@@ -1,20 +1,17 @@
 from Table import Table
+import numpy as np
 
 def TestTable(table, epochs = 100):
 	#Run the agent in the environment with the given table with the epochs passed as parameter
-	winTimes = 0
-	rewardSum = 0
+	rewards = []
 	for _ in range(epochs):
 		table.Run(exploreChance = 0)
-		rewardSum += table.reward
+		rewards = np.append(rewards, table.reward)
 
-		if(table.reward > -200):
-			winTimes += 1
+	table.avgReward = np.mean(rewards)
+	table.stdReward = np.std(rewards)
 
-	avgRwd = (rewardSum / epochs)
-	table.avgReward = avgRwd
-
-	return winTimes
+	return rewards[rewards > -200].size
 
 
 def Compare(t1, t2):
