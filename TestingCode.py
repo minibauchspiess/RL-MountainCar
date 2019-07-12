@@ -18,7 +18,10 @@ MATSIZE = 15
 
 env = gym.make('MountainCar-v0')
 
+for i in range(5):
+	Train.Crossing(env=env, sizePos=MATSIZE, sizeVel=MATSIZE, saveTable=True, tableFile=(TRAINING_FOLDER+"Crossing_"+str(MATSIZE)+"x"+str(MATSIZE)+"_"+str(i+1)), saveStatistics=True)
 
+'''
 for i in range(5):
 	Train.ManySingleFixed(env=env, sizePos=MATSIZE, sizeVel=MATSIZE, verbose=False, saveTable=True, tableFile=(TRAINING_FOLDER+"SingleFixed_"+str(MATSIZE)+"x"+str(MATSIZE)+"_"+str(i+1)), saveStatistics=True)
 
@@ -41,7 +44,7 @@ for i in range(5):
 for i in range(5):
 	Train.ManyMultipleExploring(env=env, expChance=0.2, epochs=5, sizePos=MATSIZE, sizeVel=MATSIZE, verbose=False, saveTable=True, tableFile=(TRAINING_FOLDER+"MultipleExploring_"+str(MATSIZE)+"x"+str(MATSIZE)+"_"+str(i+1)), saveStatistics=True)
 
-
+'''
 
 
 env.close()

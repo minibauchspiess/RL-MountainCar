@@ -46,7 +46,7 @@ class Table():
 
 		self.table[int(lin),int(col)] = val
 
-	def Run(self, show=False, updateTable=True, exploreChance = 0.1):
+	def Run(self, show=False, updateTable=True, exploreChance = 0):
 		#Set initial state for environment
 		state = self.env.reset()
 
